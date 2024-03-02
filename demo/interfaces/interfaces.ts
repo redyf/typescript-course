@@ -11,3 +11,80 @@ import { strict as assert } from "assert";
 //
 // Useful links:
 // https://www.typescriptlang.org/docs/handbook/2/objects.html
+
+interface Area {
+  area(): number;
+}
+
+interface Perimeter {
+  perimeter(): number;
+}
+
+class Rectangle implements Area, Perimeter {
+  length: number = 1;
+  width: number = 1;
+
+  area(): number {
+    return this.length * this.width;
+  }
+
+  perimeter(): number {
+    return 2 * (this.length + this.width);
+  }
+}
+
+type AreaAndPerimeter = Area & Perimeter;
+
+class Circle implements AreaAndPerimeter {
+  radius: number = 4;
+
+  area(): number {
+    return Math.PI * this.radius ** 2;
+  }
+
+  perimeter(): number {
+    return 2 * Math.PI * this.radius;
+  }
+}
+
+const rect = new Rectangle();
+const circ = new Circle();
+
+const objectsWithArea: Area[] = [rect, circ];
+for (let i = 0; i < objectsWithArea.length; i++) {
+  console.log(objectsWithArea[i].area());
+}
+
+interface CustomerInfo {
+  name: string;
+}
+
+class Customer implements CustomerInfo {
+  name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+}
+
+// prefer interface for objects
+interface Address {
+  street: string;
+  city: string;
+}
+
+type LocalAddress = {
+  street: string;
+  city: string;
+};
+
+function printAddr(address: Address) {
+  console.log(`Street name: ${address.street}, City: ${address.city}`);
+}
+
+const addr = {
+  street: "name",
+  city: "sample",
+};
+
+printAddr(addr);

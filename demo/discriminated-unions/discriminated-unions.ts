@@ -10,3 +10,38 @@
 // a 'discriminated union'. Unions only allow the type to be one
 // option at a time. Combining this with objects allows multiple
 // pieces of data to be associated with each individual option.
+
+// Normal union
+type numbers = 1 | 2 | string | number;
+
+// Discriminated union
+type AccountCreationMessage =
+  | { kind: "ok"; greeting: string }
+  | { kind: "passwordComplexityFailure"; message: string }
+  | { kind: "usernameExists" };
+
+const ok: AccountCreationMessage = {
+  kind: "ok",
+  greeting: "Welcome to the platform",
+};
+
+const passwordTooShort: AccountCreationMessage = {
+  kind: "passwordComplexityFailure",
+  message: "Password must be at least 10 characters",
+};
+
+function showMessage(msg: AccountCreationMessage) {
+  switch (msg.kind) {
+    case "ok":
+      console.log(`${msg.greeting}`);
+      break;
+    case "passwordComplexityFailure":
+      console.log(`${msg.message}`);
+      break;
+    case "usernameExists":
+      console.log("That username already exists");
+  }
+}
+
+showMessage(ok);
+showMessage(passwordTooShort);
